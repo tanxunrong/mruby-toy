@@ -12,18 +12,31 @@ target_compile_options(${PROJECT_NAME} PUBLIC -std=c99)
 
 aux_source_directory(./skynet-src SKYNET_SRC_LIST)
 add_executable(skynet ${SKYNET_SRC_LIST})
-target_include_directories(skynet PUBLIC /usr/include/lua5.2 ${PROJECT_SOURCE_DIR}/skynet-src )
 
-##target_compile_options(${PROJECT_NAME})
-function(skynetso name)
-    add_library(${name} SHARED service-src/service_${name}.c)
-    target_include_directories(${name} PUBLIC ${PROJECT_SOURCE_DIR}/skynet-src /usr/include/lua5.2)
-#    install(TARGETS ${name} LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/lib)
-endfunction(skynetso)
+if (APPLE)
+    set(LUA_INCLUDE_DIR /usr/local/Cellar/lua52/5.2.3/include)
+    set(LUA_LIB lua)
+    #link_directories(/usr/local/Cellar/lua52/5.2.3/lib)
+endif(APPLE)
 
-skynetso(gate)
-skynetso(harbor)
-skynetso(logger)
-skynetso(snlua)
+if (LINUX)
+    set(LUA_INCLUDE_DIR /usr/include/lua5.2)
+    set(LUA_LIB lua5.2)
+endif(LINUX)
 
-target_link_libraries(skynet lua5.2 pthread m dl gate harbor logger snlua)
+target_include_directories(skynet PUBLIC ${LUA_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/skynet-src )
+target_link_libraries(skynet ${LUA_LIB} pthread m dl)
+
+#cmake_policy(SET CMP0042 OLD)
+
+#function(skynetso name)
+#    add_library(${name} SHARED ${PROJECT_SOURCE_DIR}/service-src/service_${name}.c)
+#    target_include_directories(${name} PUBLIC ${PROJECT_SOURCE_DIR}/skynet-src ${LUA_INCLUDE_DIR})
+#endfunction(skynetso)
+
+#skynetso(gate)
+#skynetso(harbor)
+#skynetso(logger)
+#skynetso(snlua)
+
+#target_link_libraries(skynet gate harbor logger snlua)
