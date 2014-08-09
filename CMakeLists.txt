@@ -17,12 +17,13 @@ target_include_directories(skynet PUBLIC /usr/include/lua5.2 ${PROJECT_SOURCE_DI
 ##target_compile_options(${PROJECT_NAME})
 function(skynetso name)
     add_library(${name} SHARED service-src/service_${name}.c)
-    target_include_directories(${name} PUBLIC ${PROJECT_SOURCE_DIR}/skynet-src)
-    install(TARGETS ${name} LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/lib)
+    target_include_directories(${name} PUBLIC ${PROJECT_SOURCE_DIR}/skynet-src /usr/include/lua5.2)
+#    install(TARGETS ${name} LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/lib)
 endfunction(skynetso)
 
 skynetso(gate)
 skynetso(harbor)
 skynetso(logger)
+skynetso(snlua)
 
-target_link_libraries(skynet lua5.2 pthread m gate harbor logger)
+target_link_libraries(skynet lua5.2 pthread m dl gate harbor logger snlua)
