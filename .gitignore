@@ -24,3 +24,5 @@
 
 # mruby src
 mruby/
+
+CMakeLists.txt.user
