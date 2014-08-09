@@ -1,0 +1,10 @@
+project(mruby-toy)
+cmake_minimum_required(VERSION 2.8)
+aux_source_directory(./src SRC_LIST)
+add_executable(${PROJECT_NAME} ${SRC_LIST})
+add_definitions( -Wall -g -std=c99 )
+
+add_library(mruby STATIC IMPORTED)
+set_target_properties(mruby PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/mruby/build/host/lib/libmruby.a )
+include_directories( ${PROJECT_SOURCE_DIR}/mruby/include )
+target_link_libraries(${PROJECT_NAME} mruby m )
