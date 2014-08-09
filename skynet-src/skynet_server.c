@@ -678,7 +678,7 @@ skynet_globalinit(void) {
 		exit(1);
 	}
 	// set mainthread's key
-	skynet_initthread(THREAD_MAIN);
+    skynet_initthread(THREAD_MAIN);
 }
 
 void 

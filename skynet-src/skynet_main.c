@@ -97,10 +97,17 @@ static const char * load_config = "\
 
 int
 main(int argc, char *argv[]) {
-	const char * config_file = "config";
-	if (argc > 1) {
+    const char * config_file = "config.lua";
+    const char * cso_pattern = "../mruby-toy-build/lib?.so";
+    if (argc > 1)
+    {
 		config_file = argv[1];
 	}
+    if (argc > 2)
+    {
+        cso_pattern = argv[2];
+    }
+
 	skynet_globalinit();
 	skynet_env_init();
 
@@ -124,7 +131,7 @@ main(int argc, char *argv[]) {
 	_init_env(L);
 
 	config.thread =  optint("thread",8);
-	config.module_path = optstring("cpath","./cservice/?.so");
+    config.module_path = optstring("cpath",cso_pattern);
 	config.harbor = optint("harbor", 1);
 	config.bootstrap = optstring("bootstrap","snlua bootstrap");
 	config.daemon = optstring("daemon", NULL);
