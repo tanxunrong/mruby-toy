@@ -130,8 +130,8 @@ main(int argc, char *argv[]) {
 	} 
 	_init_env(L);
 
-	config.thread =  optint("thread",8);
-    config.module_path = optstring("cpath",cso_pattern);
+        config.thread =  optint("thread",8);
+        config.module_path = optstring("cpath",cso_pattern);
 	config.harbor = optint("harbor", 1);
 	config.bootstrap = optstring("bootstrap","snlua bootstrap");
 	config.daemon = optstring("daemon", NULL);

@@ -167,7 +167,7 @@ _start(int thread) {
 		exit(1);
 	}
 
-	create_thread(&pid[0], _monitor, m);
+    create_thread(&pid[0], _monitor, m);
 	create_thread(&pid[1], _timer, m);
 	create_thread(&pid[2], _socket, m);
 
@@ -201,6 +201,7 @@ bootstrap(struct skynet_context * logger, const char * cmdline) {
 	char name[sz+1];
 	char args[sz+1];
 	sscanf(cmdline, "%s %s", name, args);
+    printf("bootstrap name %s args %s\n",name,args);
 	struct skynet_context *ctx = skynet_context_new(name, args);
 	if (ctx == NULL) {
 		skynet_error(NULL, "Bootstrap error : %s\n", cmdline);

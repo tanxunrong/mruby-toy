@@ -353,7 +353,7 @@ cmd_timeout(struct skynet_context * context, const char * param) {
 
 static const char *
 cmd_reg(struct skynet_context * context, const char * param) {
-	if (param == NULL || param[0] == '\0') {
+    if (param == NULL || param[0] == '\0') {
 		sprintf(context->result, ":%x", context->handle);
 		return context->result;
 	} else if (param[0] == '.') {
@@ -523,7 +523,7 @@ cmd_mqlen(struct skynet_context * context, const char * param) {
 
 static struct command_func cmd_funcs[] = {
 	{ "TIMEOUT", cmd_timeout },
-	{ "REG", cmd_reg },
+    { "REG", cmd_reg },
 	{ "QUERY", cmd_query },
 	{ "NAME", cmd_name },
 	{ "NOW", cmd_now },
@@ -552,7 +552,8 @@ skynet_command(struct skynet_context * context, const char * cmd , const char * 
 
 	return NULL;
 }
-
+//check if message need copy
+//check if need to alloc session
 static void
 _filter_args(struct skynet_context * context, int type, int *session, void ** data, size_t * sz) {
 	int needcopy = !(type & PTYPE_TAG_DONTCOPY);
@@ -590,6 +591,7 @@ skynet_send(struct skynet_context * context, uint32_t source, uint32_t destinati
 	if (destination == 0) {
 		return session;
 	}
+	//remote msg 
 	if (skynet_harbor_message_isremote(destination)) {
 		struct remote_message * rmsg = skynet_malloc(sizeof(*rmsg));
 		rmsg->destination.handle = destination;
