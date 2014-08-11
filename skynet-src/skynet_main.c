@@ -99,8 +99,7 @@ static const char * load_config = "\
 
 int
 main(int argc, char *argv[]) {
-    mrb_state *mrb = mrb_open();
-    mrb_close(mrb);
+    mrb_close(mrb_open());
     const char * config_file = "config.lua";
     const char * cso_pattern = "../mruby-toy-build/lib?.so";
     if (argc > 1)

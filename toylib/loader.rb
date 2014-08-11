@@ -4,13 +4,16 @@ if $Toypath
 else
 	$Toypath="./toylib/?.rb"
 end
-puts $Toypath
+
+Skynet.callback()
 
 class Skynet
-
-	def initialize
-	end
-
-	def load(file)
+	attr_reader :CTX
+	def self.putCtx
+		puts @@CTX
+		puts "shit"
 	end
 end
+
+Skynet.putCtx()
+puts "shit"

@@ -63,12 +63,17 @@ _init(struct toy *mrb, struct skynet_context *ctx, const char * args, size_t sz)
     mrb->ctx = ctx;
 
     const char *path = optstring(ctx,"toy_path","./toylib/loader.rb");
-    mrb_value toypath = mrb_str_new_cstr(M,path);
-    mrb_define_global_const(M,"$Toypath",toypath);
-    mrb_load_string(M,"puts $Toypath");
+    mrb_value snctx = mrb_cptr_value(M,mrb->ctx);
+    struct RClass *skynetClass = mrb_class_get(M,"Skynet");
+    assert(skynetClass != NULL);
+    mrb_define_const(M,skynetClass,"@@CTX",snctx);
+
+
     FILE *loadF = fopen(path,"r");
     assert(loadF != NULL);
     mrb_load_file(M,loadF);
+
+//    mrb_print_error(M);
 
 //    lua_gc(L, LUA_GCSTOP, 0);
 //    lua_pushboolean(L, 1);  /* signal for libraries to ignore env. vars. */
