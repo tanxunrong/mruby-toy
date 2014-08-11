@@ -13,6 +13,8 @@
 #include <signal.h>
 #include <assert.h>
 
+#include <mruby.h>
+
 static int
 optint(const char *key, int opt) {
 	const char * str = skynet_getenv(key);
@@ -97,6 +99,8 @@ static const char * load_config = "\
 
 int
 main(int argc, char *argv[]) {
+    mrb_state *mrb = mrb_open();
+    mrb_close(mrb);
     const char * config_file = "config.lua";
     const char * cso_pattern = "../mruby-toy-build/lib?.so";
     if (argc > 1)
@@ -133,7 +137,7 @@ main(int argc, char *argv[]) {
         config.thread =  optint("thread",8);
         config.module_path = optstring("cpath",cso_pattern);
 	config.harbor = optint("harbor", 1);
-	config.bootstrap = optstring("bootstrap","snlua bootstrap");
+    config.bootstrap = optstring("bootstrap","snlua bootstrap");
 	config.daemon = optstring("daemon", NULL);
 	config.logger = optstring("logger", NULL);
 

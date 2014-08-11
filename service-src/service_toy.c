@@ -47,7 +47,7 @@ _report_launcher_error(struct skynet_context *ctx) {
     // sizeof "ERROR" == 5
     skynet_sendname(ctx, ".launcher", PTYPE_TEXT, 0, "ERROR", 5);
 }
-
+*/
 static const char *
 optstring(struct skynet_context *ctx, const char *key, const char * str) {
     const char * ret = skynet_command(ctx, "GETENV", key);
@@ -56,7 +56,7 @@ optstring(struct skynet_context *ctx, const char *key, const char * str) {
     }
     return ret;
 }
-*/
+
 static int
 _init(struct toy *mrb, struct skynet_context *ctx, const char * args, size_t sz) {
     mrb_state *M = mrb->mrb;
@@ -66,7 +66,10 @@ _init(struct toy *mrb, struct skynet_context *ctx, const char * args, size_t sz)
     mrb_value toypath = mrb_str_new_cstr(M,path);
     mrb_define_global_const(M,"$Toypath",toypath);
     mrb_load_string(M,"puts $Toypath");
-    mrb_load_file(M,path);
+    FILE *loadF = fopen(path,"r");
+    assert(loadF != NULL);
+    mrb_load_file(M,loadF);
+
 //    lua_gc(L, LUA_GCSTOP, 0);
 //    lua_pushboolean(L, 1);  /* signal for libraries to ignore env. vars. */
 //    lua_setfield(L, LUA_REGISTRYINDEX, "LUA_NOENV");

@@ -4,6 +4,7 @@ if $Toypath
 else
 	$Toypath="./toylib/?.rb"
 end
+puts $Toypath
 
 class Skynet
 
@@ -11,4 +12,5 @@ class Skynet
 	end
 
 	def load(file)
-		if 
+	end
+end
