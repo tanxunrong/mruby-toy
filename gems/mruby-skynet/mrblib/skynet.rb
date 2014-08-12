@@ -16,7 +16,33 @@ class Skynet
 		:PTYPE_SNAX => 11]
 
 	attr_reader :proto
-	attr_accessor :sid_to_fiber,:fiber_to_sid
+	attr_accessor :sid_to_fiber,:fiber_to_sid,:fiber_pool
+
+	def self.str_to_handle(str)
+		"0x" + str.slice(0,-2)
+	end
+
+	def self.fb_new(&block)
+		if @fiber_pool == nil
+			@fiber_pool = []
+		end
+		fb = @fiber_pool.pop()
+		if fb == nil
+			fb = Fiber.new block
+			@fiber_pool << fb
+		end
+	end
+
+	def self.launch(*all)
+		addr = self.command("LAUNCH",all.join(" "))
+		if addr
+			self.str_to_handle(addr)
+		end
+	end
+
+	def self.getenv(key)
+		self.command("GETENV")
+	end
 
 	def self.now
 		self.command("NOW").to_i

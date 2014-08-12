@@ -14,6 +14,7 @@ begin
 
 	puts Skynet.now()
 	puts Skynet.time()
+	puts Skynet.genid()
 rescue Exception => detail
 	puts detail
 end
