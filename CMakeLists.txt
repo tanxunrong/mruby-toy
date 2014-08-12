@@ -1,14 +1,14 @@
 project(mruby-toy)
 cmake_minimum_required(VERSION 2.8)
 aux_source_directory(./src SRC_LIST)
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+#add_executable(${PROJECT_NAME} ${SRC_LIST})
 add_definitions( -Wall -g )
 
 add_library(mruby STATIC IMPORTED)
 set_target_properties(mruby PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/mruby/build/host/lib/libmruby.a )
 include_directories( ${PROJECT_SOURCE_DIR}/mruby/include )
-target_link_libraries(${PROJECT_NAME} mruby m )
-target_compile_options(${PROJECT_NAME} PUBLIC -std=c99)
+#target_link_libraries(${PROJECT_NAME} mruby m )
+#target_compile_options(${PROJECT_NAME} PUBLIC -std=c99)
 
 aux_source_directory(./skynet-src SKYNET_SRC_LIST)
 add_executable(skynet ${SKYNET_SRC_LIST})
@@ -38,5 +38,10 @@ skynetso(harbor)
 skynetso(logger)
 #skynetso(snlua)
 skynetso(toy)
+#set(SKYN_SRC list(REMOVE_ITEM SKYNET_SRC_LIST skynet_main.c))
+#message("SKYN_SRC",${SKYN_SRC})
+
+#add_library(skynlib SHARED ${SKYN_SRC})
+#target_include_directories(skynlib PUBLIC ${LUA_INCLUDE_DIR})
 
 target_link_libraries(skynet ${LUA_LIB} pthread dl gate harbor logger mruby m toy)

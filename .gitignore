@@ -26,3 +26,5 @@
 mruby/
 tags
 CMakeLists.txt.user
+*.swp
+*.swq
